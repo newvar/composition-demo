@@ -9,10 +9,12 @@ const Button = ({
   value,
   placeholder,
   className,
+  focusRef,
 }) => (
   <button
     className={cn( 'Dropdown-Button', className)}
     onClick={isOpened ? onClose : onOpen}
+    ref={focusRef}
   >
     <div className="Dropdown-Button__content">
       {value === undefined ? placeholder : value}
@@ -28,6 +30,7 @@ Button.propTypes = {
   onClose: PropTypes.func,
   isOpened: PropTypes.bool,
   className: PropTypes.string,
+  focusRef: PropTypes.any,
 };
 
 Button.defaultProps = { isOpened: false }

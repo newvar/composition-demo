@@ -10,6 +10,21 @@ class Dropdown extends Component {
     selectedValue: undefined,
   }
 
+  componentDidMount() {
+    this.props.autoFocus
+      && this.element.focus()
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.focusMeOnUpdate = !this.props.autoFocus && newProps.autoFocus
+  }
+
+  componentDidUpdate() {
+    if (this.focusMeOnUpdate) {
+      this.element.focus()
+    }
+  }
+
   onOpenHandler = () => {
     this.setOpened(true)
   }
@@ -31,6 +46,10 @@ class Dropdown extends Component {
     this.setState(state => ({ ...state, selectedValue }));
   }
 
+  focusRef = (element) => (this.element = element)
+
+  focusMeOnUpdate = false
+
   render() {
     const { isOpened, selectedValue } = this.state
     const { data } = this.props
@@ -44,6 +63,7 @@ class Dropdown extends Component {
           onOpen={this.onOpenHandler}
           onClose={this.onCloseHandler}
           isOpened={isOpened}
+          focusRef={this.focusRef}
         />
         {isOpened && (
           <List

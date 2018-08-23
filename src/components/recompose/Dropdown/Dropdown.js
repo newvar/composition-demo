@@ -7,6 +7,7 @@ import {
 } from 'recompose'
 import Button from './Button'
 import List from './List'
+import withFocus from './hocs/withFocus'
 import { parseLabel } from 'helpers'
 
 const Dropdown = ({
@@ -16,6 +17,7 @@ const Dropdown = ({
   onClose,
   onSelect,
   data,
+  refProxy, // bad HOCs
 }) => (
   <div className="Dropdown">
     <Button
@@ -25,6 +27,7 @@ const Dropdown = ({
       onOpen={onOpen}
       onClose={onClose}
       isOpened={isOpened}
+      focusRef={refProxy}
     />
     {isOpened && (
       <List
@@ -43,6 +46,7 @@ Dropdown.propTypes = {
   isOpened: PropTypes.bool,
   selectedValue: PropTypes.shape({}),
   data: PropTypes.array,
+  refProxy: PropTypes.any,
 }
 
 const enhance = compose(
@@ -65,6 +69,8 @@ const enhance = compose(
       onClose()
     },
   }),
+
+  withFocus,
 )
 
 export default enhance(Dropdown)

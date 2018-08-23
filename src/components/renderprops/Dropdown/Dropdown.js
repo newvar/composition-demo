@@ -4,6 +4,7 @@ import Button from './Button'
 import List from './List'
 import withProps from './toolchain/withProps'
 import WithStateHandlers from './toolchain/WithStateHandlers'
+import WithFocus from './toolchain/WithFocus'
 import { parseLabel } from 'helpers'
 
 const Dropdown = ({
@@ -13,6 +14,7 @@ const Dropdown = ({
   onClose,
   onSelect,
   data,
+  focusRef,
 }) => (
   <div className="Dropdown">
     <Button
@@ -22,6 +24,7 @@ const Dropdown = ({
       onOpen={onOpen}
       onClose={onClose}
       isOpened={isOpened}
+      focusRef={focusRef}
     />
     {isOpened && (
       <List
@@ -40,36 +43,42 @@ Dropdown.propTypes = {
   isOpened: PropTypes.bool,
   selectedValue: PropTypes.shape({}),
   data: PropTypes.array,
+  focusRef: PropTypes.any,
 }
 
 const Enhanced = (props) => (
-  <WithStateHandlers
-    initialState={{
-      isOpened: false,
-      selectedValue: undefined,
-    }}
-    handlers={{
-      setSelectedValue: (selectedValue) => ({ selectedValue }),
-      setOpened: (isOpened) => ({ isOpened }),
-    }}
-  >
-    {({ setSelectedValue, setOpened, isOpened, selectedValue }) => withProps({
-      onOpen: () => setOpened(true),
-      onClose: () => setOpened(false),
-    }, ({ onOpen, onClose }) => (
-      <Dropdown
-        {...props}
-        isOpened={isOpened}
-        selectedValue={selectedValue}
-        onSelect={(value) => {
-          setSelectedValue(value)
-          onClose()
+  <WithFocus autoFocus={props.autoFocus}>
+    {({ refProxy }) => (
+      <WithStateHandlers
+        initialState={{
+          isOpened: false,
+          selectedValue: undefined,
         }}
-        onOpen={onOpen}
-        onClose={onClose}
-      />
-    ))}
-  </WithStateHandlers>
+        handlers={{
+          setSelectedValue: (selectedValue) => ({ selectedValue }),
+          setOpened: (isOpened) => ({ isOpened }),
+        }}
+      >
+        {({ setSelectedValue, setOpened, isOpened, selectedValue }) => withProps({
+          onOpen: () => setOpened(true),
+          onClose: () => setOpened(false),
+        }, ({ onOpen, onClose }) => (
+          <Dropdown
+            {...props}
+            isOpened={isOpened}
+            selectedValue={selectedValue}
+            onSelect={(value) => {
+              setSelectedValue(value)
+              onClose()
+            }}
+            onOpen={onOpen}
+            onClose={onClose}
+            focusRef={refProxy}
+          />
+        ))}
+      </WithStateHandlers>
+    )}
+  </WithFocus>
 )
 
 export default Enhanced
