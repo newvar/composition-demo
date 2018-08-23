@@ -1,0 +1,11 @@
+eslint
+css modules
+withProps
+lifecycle
+
+changes:
+0. Dropdown - add props (placeholder, ?)
+1. ListItem, Dropdown - parseLabel - to prop, to withProps
+2. Button onClick handler
+3. Button className - className hoc
+4. List is hoc

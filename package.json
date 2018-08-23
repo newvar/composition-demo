@@ -1,0 +1,35 @@
+{
+  "name": "demo",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "prop-types": "^15.6.2",
+    "proppy": "^1.2.4",
+    "proppy-react": "^1.2.4",
+    "react": "^16.4.2",
+    "react-adopt": "^0.6.0",
+    "react-composer": "^5.0.1",
+    "react-dom": "^16.4.2",
+    "react-powerplug": "^1.0.0-rc.1",
+    "react-redux": "^5.0.7",
+    "react-scripts": "1.1.4",
+    "recompact": "^3.4.0",
+    "recompose": "^0.28.2",
+    "redux": "^4.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-react": "^7.11.1"
+  }
+}
