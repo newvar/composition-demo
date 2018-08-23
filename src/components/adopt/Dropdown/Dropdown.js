@@ -4,7 +4,8 @@ import Button from './Button'
 import List from './List'
 import withProps from './toolchain/withProps'
 import WithStateHandlers from './toolchain/WithStateHandlers'
-import { Adopt } from 'react-adopt'
+import WithFocus from './toolchain/WithFocus'
+import { adopt } from 'react-adopt'
 import { parseLabel } from 'helpers'
 
 const Dropdown = ({
@@ -14,6 +15,7 @@ const Dropdown = ({
   onClose,
   onSelect,
   data,
+  focusRef,
 }) => (
   <div className="Dropdown">
     <Button
@@ -23,6 +25,7 @@ const Dropdown = ({
       onOpen={onOpen}
       onClose={onClose}
       isOpened={isOpened}
+      focusRef={focusRef}
     />
     {isOpened && (
       <List
@@ -41,9 +44,10 @@ Dropdown.propTypes = {
   isOpened: PropTypes.bool,
   selectedValue: PropTypes.shape({}),
   data: PropTypes.array,
+  focusRef: PropTypes.any,
 }
 
-const mapper = {
+const Composed = adopt({
   state: (
     <WithStateHandlers
       initialState={{
@@ -56,16 +60,24 @@ const mapper = {
       }}
     />
   ),
-}
+  focus: ({ autoFocus, render }) => (
+    <WithFocus autoFocus={autoFocus}>
+      {render}
+    </WithFocus>
+  )
+})
 
 const Enhanced = (props) => (
-  <Adopt mapper={mapper}>
+  <Composed autoFocus={props.autoFocus} >
     {({
       state: {
         setSelectedValue,
         setOpened,
         isOpened,
         selectedValue,
+      },
+      focus: {
+        refProxy,
       },
     }) => withProps({
       onOpen: () => setOpened(true),
@@ -81,9 +93,10 @@ const Enhanced = (props) => (
         }}
         onOpen={onOpen}
         onClose={onClose}
+        focusRef={refProxy}
       />
     ))}
-  </Adopt>
+  </Composed>
 )
 
 export default Enhanced
