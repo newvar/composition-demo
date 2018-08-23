@@ -4,6 +4,7 @@ import Button from './Button'
 import List from './List'
 import withProps from './toolchain/withProps'
 import WithStateHandlers from './toolchain/WithStateHandlers'
+import { Adopt } from 'react-adopt'
 import { parseLabel } from 'helpers'
 
 const Dropdown = ({
@@ -42,18 +43,31 @@ Dropdown.propTypes = {
   data: PropTypes.array,
 }
 
+const mapper = {
+  state: (
+    <WithStateHandlers
+      initialState={{
+        isOpened: false,
+        selectedValue: undefined,
+      }}
+      handlers={{
+        setSelectedValue: (selectedValue) => ({ selectedValue }),
+        setOpened: (isOpened) => ({ isOpened }),
+      }}
+    />
+  ),
+}
+
 const Enhanced = (props) => (
-  <WithStateHandlers
-    initialState={{
-      isOpened: false,
-      selectedValue: undefined,
-    }}
-    handlers={{
-      setSelectedValue: (selectedValue) => ({ selectedValue }),
-      setOpened: (isOpened) => ({ isOpened }),
-    }}
-  >
-    {({ setSelectedValue, setOpened, isOpened, selectedValue }) => withProps({
+  <Adopt mapper={mapper}>
+    {({
+      state: {
+        setSelectedValue,
+        setOpened,
+        isOpened,
+        selectedValue,
+      },
+    }) => withProps({
       onOpen: () => setOpened(true),
       onClose: () => setOpened(false),
     }, ({ onOpen, onClose }) => (
@@ -69,7 +83,7 @@ const Enhanced = (props) => (
         onClose={onClose}
       />
     ))}
-  </WithStateHandlers>
+  </Adopt>
 )
 
 export default Enhanced

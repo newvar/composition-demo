@@ -4,6 +4,7 @@ import RecomposeDropdown from 'components/recompose/Dropdown'
 import RecompactDropdown from 'components/recompact/Dropdown'
 import ProppyDropdown from 'components/proppy/Dropdown'
 import RenderpropsDropdown from 'components/renderprops/Dropdown'
+import AdoptDropdown from 'components/adopt/Dropdown'
 import data from 'data'
 
 const Dropdowns = () => (
@@ -13,6 +14,7 @@ const Dropdowns = () => (
     <RecompactDropdown data={data} />
     <ProppyDropdown data={data} />
     <RenderpropsDropdown data={data} />
+    <AdoptDropdown data={data} />
   </React.Fragment>
 )
 
